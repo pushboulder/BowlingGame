@@ -51,24 +51,18 @@ class TestGameManager(TestCase):
 
     def test_has_game_rolls_which_updates_on_roll_or_load(self):
         game_manager = GameManager()
-        game_rolls = []
-        for pins_hit in [0, 5, 10]:
+        expected = [0, 5, 10]
+        for pins_hit in expected:
             game_manager.roll(pins_hit)
-            game_rolls.append(
-                GameRoll.objects.get(
-                    game=game_manager.game,
-                    roll=Roll.objects.get(pins_hit=pins_hit)
-                )
-            )
         self.assertEqual(
-            game_manager.game_rolls,
-            game_rolls
+            game_manager.get_pins_hit_list(),
+            expected
         )
         game_manager_two = GameManager(game_manager.game.id)
 
         self.assertEqual(
-            game_manager_two.game_rolls,
-            game_rolls
+            game_manager_two.get_pins_hit_list(),
+            expected
         )
 
     def test_calculate_score_updates_all_frames(self):
@@ -83,3 +77,11 @@ class TestGameManager(TestCase):
                 frame.score,
                 self.frame_score_data['scores'][name - 1]
             )
+
+    def test_game_marked_inactive_when_all_frames_complete(self):
+        game_manager = GameManager()
+        for roll in self.frame_score_data['rolls']:
+            game_manager.roll(roll)
+        self.assertFalse(
+            game_manager.game.active
+        )
