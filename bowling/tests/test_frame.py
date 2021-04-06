@@ -39,7 +39,9 @@ class TestFrame(TestCase):
         cls.calculate_score_data = [
             {'name': 1, 'rolls': [6], 'add_rolls': [10, 10], 'score': 0},
             {'name': 1, 'rolls': [5, 5], 'add_rolls': [10, 10], 'score': 20},
+            {'name': 1, 'rolls': [10], 'add_rolls': [10, 10], 'score': 30},
             {'name': 1, 'rolls': [2, 4], 'add_rolls': [10, 10], 'score': 6},
+            {'name': 1, 'rolls': [10], 'add_rolls': [10], 'score': 0},
             {'name': 1, 'rolls': [10], 'add_rolls': [10, 10], 'score': 30},
             {'name': 10, 'rolls': [5, 5], 'add_rolls': [10, 10], 'score': 0},
             {'name': 10, 'rolls': [10, 5], 'add_rolls': [10, 10], 'score': 0},

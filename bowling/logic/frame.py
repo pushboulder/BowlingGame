@@ -45,4 +45,24 @@ class Frame:
             return True
         return False
 
+    def calculate_score(self, future_rolls):
+        score = 0
+        if self.is_complete():
+            bonus_rolls = self.get_bonus_rolls_needed()
+            if len(future_rolls) >= bonus_rolls:
+                all_rolls = future_rolls[0:bonus_rolls]
+                for pin_set in self.pin_sets:
+                    all_rolls.extend(pin_set.rolls)
+                score = sum(all_rolls)
+        self.score = score
+        return score
+
+    def get_bonus_rolls_needed(self):
+        if self.name == 10:
+            return 0
+        if self.pin_sets[0].get_status() == 'Strike':
+            return 2
+        if self.pin_sets[0].get_status() == 'Spare':
+            return 1
+        return 0
 
