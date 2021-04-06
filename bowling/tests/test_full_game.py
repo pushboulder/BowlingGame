@@ -25,7 +25,7 @@ class TestFullGameFlow(TestCase):
 
     @tag('system')
     def test_game_can_be_created_updated_and_completed(self):
-        response = self.client.get('/')
+        response = self.client.post('/', {'game_id': 'create'})
         game_id = response.context.get('game_id', None)
         self.assertIsNotNone(
             game_id,

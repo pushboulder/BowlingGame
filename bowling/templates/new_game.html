@@ -1,0 +1,7 @@
+<div class="form_container">
+    <form name="create_game" method="post" action="{% url 'game_view' %}">
+        {% csrf_token %}
+        <input type="hidden" name="game_id" value="create"/>
+        <input type="submit" value="Create a New Game"/>
+    </form>
+</div>
