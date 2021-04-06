@@ -1,6 +1,8 @@
 from django.test import TestCase
 from bowling.logic.game_manager import GameManager
 from bowling.logic.frame import Frame
+from bowling.models.game_roll import GameRoll
+from bowling.models.roll import Roll
 
 
 class TestGameManager(TestCase):
@@ -42,3 +44,25 @@ class TestGameManager(TestCase):
                 game_manager.frames[data['frame']].pin_sets[0].rolls,
                 data['expect']
             )
+
+    def test_has_game_rolls_which_updates_on_roll_or_load(self):
+        game_manager = GameManager()
+        pins_hit_list = [0, 5, 10]
+        game_rolls = []
+        for pins_hit in pins_hit_list:
+            game_manager.roll(pins_hit)
+            game_rolls.append(
+                GameRoll.objects.create(
+                    game=game_manager.game,
+                    roll=Roll.objects.get(pins_hit=pins_hit)
+                )
+            )
+        self.assertEqual(
+            game_manager.game_rolls,
+            game_rolls
+        )
+        game_manager_two = GameManager(game_manager.game.id)
+        self.assertEqual(
+            game_manager_two.game_rolls,
+            game_rolls
+        )
