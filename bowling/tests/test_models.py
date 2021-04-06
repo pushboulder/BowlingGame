@@ -1,6 +1,7 @@
 from django.test import TestCase
 from bowling.models.roll import Roll
 from bowling.models.game import Game
+from bowling.models.game_roll import GameRoll
 
 
 class TestModels(TestCase):
@@ -21,4 +22,20 @@ class TestModels(TestCase):
         self.assertEqual(
             game.active,
             True  # should be default
+        )
+
+    def test_game_roll_model_has_foreign_keys(self):
+        game = Game.objects.create()
+        roll = Roll.objects.create()
+        game_roll = GameRoll.objects.create(
+            game=game,
+            roll=roll
+        )
+        self.assertEqual(
+            game,
+            game_roll.game
+        )
+        self.assertEqual(
+            roll,
+            game_roll.roll
         )
