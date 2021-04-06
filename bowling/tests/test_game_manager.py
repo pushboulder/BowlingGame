@@ -39,6 +39,6 @@ class TestGameManager(TestCase):
             game_manager.game.current_frame = data['frame']
             game_manager.roll(data['roll'])
             self.assertEqual(
-                sum(game_manager.frames[data['frame']].pin_sets[0].rolls),
+                game_manager.frames[data['frame']].pin_sets[0].rolls,
                 data['expect']
             )

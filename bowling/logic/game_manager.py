@@ -22,3 +22,6 @@ class GameManager:
     def set_frames(self):
         for index in range(1, 11):
             self.frames[index] = Frame(index)
+
+    def roll(self, pins_hit):
+        self.frames[self.game.current_frame].roll(pins_hit)
