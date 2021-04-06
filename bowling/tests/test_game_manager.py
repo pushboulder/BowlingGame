@@ -85,3 +85,11 @@ class TestGameManager(TestCase):
         self.assertFalse(
             game_manager.game.active
         )
+        complete_rolls = game_manager.get_pins_hit_list()
+        game_manager.roll(10)
+        extra_rolls = game_manager.get_pins_hit_list()
+        self.assertEqual(
+            complete_rolls,
+            extra_rolls,
+            '\nNo extra rolls should be recorded if a game is not active.'
+        )
