@@ -71,6 +71,16 @@ class TestGameStyle(TestCase):
                 expected
             )
         )
+        scores = game_style.get_scores()
+        expected = self.expected_scores[0:5]
+        self.assertEqual(
+            scores,
+            expected,
+            '\nExpected: {}\nActual:   {}'.format(
+                scores,
+                expected,
+            )
+        )
 
     def test_get_scores_returns_expected_data(self):
         self.assertEqual(

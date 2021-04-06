@@ -65,3 +65,14 @@ class GameStyle:
             blanks_list.append('')
             count += 1
         return blanks_list
+
+    def get_scores(self):
+        total_score = 0
+        scores = []
+        self.game_manager.calculate_score()
+        for frame in self.game_manager.frames.values():
+            score = frame.score if frame.score != 0 else ''
+            if score:
+                total_score += score
+                scores.append(total_score)
+        return scores
