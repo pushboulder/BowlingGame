@@ -1,4 +1,5 @@
 from django.test import TestCase
+from bowling.logic.frame import Frame
 
 
 class TestFrame(TestCase):
@@ -19,5 +20,6 @@ class TestFrame(TestCase):
                 'pin_sets': frame.pin_sets,
                 'score': frame.score,
                 'name': frame.name
-            }
+            },
+            self.defaults
         )
