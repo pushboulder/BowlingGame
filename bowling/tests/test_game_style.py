@@ -25,6 +25,14 @@ class TestGameStyle(TestCase):
             74, 84, 90, 120,
             148, 167
         ]
+        cls.expected_current_frame_data = {
+            'rolls_remaining': 0,
+            'current_frame': 10,
+            'available_pins': {
+                1: False, 2: False, 3: False, 4: False, 5: False,
+                6: False, 7: False, 8: False, 9: False, 10: False
+            }
+        }
 
     def test_takes_game_id_creates_game_manager(self):
         game_style = GameStyle()
@@ -86,4 +94,10 @@ class TestGameStyle(TestCase):
         self.assertEqual(
             self.game_style.get_scores(),
             self.expected_scores
+        )
+
+    def test_get_current_frame_data_returns_expected_data(self):
+        self.assertEqual(
+            self.game_style.get_current_frame_data(),
+            self.expected_current_frame_data
         )
