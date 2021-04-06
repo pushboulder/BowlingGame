@@ -20,6 +20,11 @@ class TestGameStyle(TestCase):
             '-', '6', '', 'X', '', 'X',
             'X', '8', '1'
         ]
+        cls.expected_scores = [
+            20, 39, 48, 66,
+            74, 84, 90, 120,
+            148, 167
+        ]
 
     def test_takes_game_id_creates_game_manager(self):
         game_style = GameStyle()
@@ -67,3 +72,8 @@ class TestGameStyle(TestCase):
             )
         )
 
+    def test_get_scores_returns_expected_data(self):
+        self.assertEqual(
+            self.game_style.get_scores(),
+            self.expected_scores
+        )
