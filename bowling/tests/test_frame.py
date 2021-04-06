@@ -35,3 +35,13 @@ class TestFrame(TestCase):
                 frame.max_pin_sets,
                 max_pin_sets
             )
+
+    def test_roll_method_adds_pins_if_incomplete(self):
+        for name in range(1, 11):
+            frame = Frame(name)
+            for pins_hit in [2, 8, 10, 10]:
+                frame.roll(pins_hit)
+            self.assertEqual(
+                len(frame.pin_sets),
+                frame.max_pin_sets
+            )
