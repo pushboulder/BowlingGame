@@ -23,6 +23,19 @@ class TestFrame(TestCase):
             {'name': 10, 'rolls': [10, 10, 6, 4], 'pins_hit': [10, 10, 6], 'pin_set_count': 3},
             {'name': 10, 'rolls': [2, 7, 6, 4], 'pins_hit': [2, 7], 'pin_set_count': 1}
         ]
+        cls.is_complete_data = [
+            {'name': 1, 'rolls': [10], 'is_complete': True},
+            {'name': 1, 'rolls': [4, 6], 'is_complete': True},
+            {'name': 1, 'rolls': [5], 'is_complete': False},
+            {'name': 1, 'rolls': [], 'is_complete': False},
+            {'name': 10, 'rolls': [10, 10, 10], 'is_complete': True},
+            {'name': 10, 'rolls': [10, 3, 7], 'is_complete': True},
+            {'name': 10, 'rolls': [0, 2], 'is_complete': True},
+            {'name': 10, 'rolls': [0, 10, 4], 'is_complete': True},
+            {'name': 10, 'rolls': [6], 'is_complete': False},
+            {'name': 10, 'rolls': [10], 'is_complete': False},
+            {'name': 10, 'rolls': [], 'is_complete': False},
+        ]
 
     def test_frame_takes_one_arg_has_expected_defaults(self):
         frame = Frame(self.defaults['name'])
@@ -72,4 +85,14 @@ class TestFrame(TestCase):
                 len(frame.pin_sets),
                 data['pin_set_count'],
                 '\nData used in this test: {}'.format(data)
+            )
+
+    def test_is_complete_method_shows_when_a_frame_has_ended(self):
+        for data in self.is_complete_data:
+            frame = Frame(data['name'])
+            for roll in data['rolls']:
+                frame.roll(roll)
+            self.assertEqual(
+                frame.is_complete(),
+                data['is_complete']
             )
