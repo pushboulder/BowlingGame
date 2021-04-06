@@ -36,6 +36,18 @@ class TestFrame(TestCase):
             {'name': 10, 'rolls': [10], 'is_complete': False},
             {'name': 10, 'rolls': [], 'is_complete': False},
         ]
+        cls.calculate_score_data = [
+            {'name': 1, 'rolls': [6], 'add_rolls': [10, 10], 'score': 0},
+            {'name': 1, 'rolls': [5, 5], 'add_rolls': [10, 10], 'score': 20},
+            {'name': 1, 'rolls': [2, 4], 'add_rolls': [10, 10], 'score': 6},
+            {'name': 1, 'rolls': [10], 'add_rolls': [10, 10], 'score': 30},
+            {'name': 10, 'rolls': [5, 5], 'add_rolls': [10, 10], 'score': 0},
+            {'name': 10, 'rolls': [10, 5], 'add_rolls': [10, 10], 'score': 0},
+            {'name': 10, 'rolls': [10, 10], 'add_rolls': [10, 10], 'score': 0},
+            {'name': 10, 'rolls': [10, 10, 10], 'add_rolls': [10, 10], 'score': 30},
+            {'name': 10, 'rolls': [8, 2, 3], 'add_rolls': [10, 10], 'score': 13},
+            {'name': 10, 'rolls': [5, 3], 'add_rolls': [10, 10], 'score': 8},
+        ]
 
     def test_frame_takes_one_arg_has_expected_defaults(self):
         frame = Frame(self.defaults['name'])
@@ -97,4 +109,15 @@ class TestFrame(TestCase):
                 frame.is_complete(),
                 data['is_complete'],
                 '\nChecking is_complete with this data: {}'.format(data)
+            )
+
+    def test_calculate_score_method_returns_zero_unless_complete(self):
+        for data in self.calculate_score_data:
+            frame = Frame(data['name'])
+            for roll in data['rolls']:
+                frame.roll(roll)
+            score = frame.calculate_score(data['add_rolls'])
+            self.assertEqual(
+                [score, frame.score],
+                [data['score'], data['score']]
             )
