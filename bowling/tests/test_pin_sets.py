@@ -10,6 +10,12 @@ class TestPinSet(TestCase):
         cls.expected_max_rolls_default = 2
         cls.roll = Roll.objects.get(pins_hit=3)
         cls.expected_rolls = [cls.roll, cls.roll]
+        cls.get_status_data = [
+            {'pins_hit': [0, 1], 'expected_status': 'Complete'},
+            {'pins_hit': [4], 'expected_status': 'Incomplete'},
+            {'pins_hit': [10], 'expected_status': 'Strike'},
+            {'pins_hit': [2, 8], 'expected_status': 'Spare'}
+        ]
 
     def test_pin_set_has_default_values(self):
         pin_set = PinSet()
@@ -30,3 +36,15 @@ class TestPinSet(TestCase):
             pin_set.rolls,
             self.expected_rolls
         )
+
+    def test_get_status_returns_expected(self):
+        for data in self.get_status_data:
+            pin_set = PinSet()
+            for pins_hit in data['pins_hit']:
+                roll = Roll.objects.get(pins_hit=pins_hit)
+                pin_set.roll(roll)
+            actual_status = pin_set.get_status()
+            self.assertEqual(
+                actual_status,
+                data['expected_status']
+            )
