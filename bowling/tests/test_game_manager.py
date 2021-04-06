@@ -47,12 +47,11 @@ class TestGameManager(TestCase):
 
     def test_has_game_rolls_which_updates_on_roll_or_load(self):
         game_manager = GameManager()
-        pins_hit_list = [0, 5, 10]
         game_rolls = []
-        for pins_hit in pins_hit_list:
+        for pins_hit in [0, 5, 10]:
             game_manager.roll(pins_hit)
             game_rolls.append(
-                GameRoll.objects.create(
+                GameRoll.objects.get(
                     game=game_manager.game,
                     roll=Roll.objects.get(pins_hit=pins_hit)
                 )
@@ -62,6 +61,7 @@ class TestGameManager(TestCase):
             game_rolls
         )
         game_manager_two = GameManager(game_manager.game.id)
+
         self.assertEqual(
             game_manager_two.game_rolls,
             game_rolls
