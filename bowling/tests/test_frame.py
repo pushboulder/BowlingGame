@@ -21,7 +21,7 @@ class TestFrame(TestCase):
             {'name': 10, 'rolls': [2, 8, 10, 10], 'pins_hit': [2, 8, 10], 'pin_set_count': 2},
             {'name': 10, 'rolls': [10, 0, 10, 8], 'pins_hit': [10, 0, 10], 'pin_set_count': 2},
             {'name': 10, 'rolls': [10, 10, 6, 4], 'pins_hit': [10, 10, 6], 'pin_set_count': 3},
-            {'name': 10, 'rolls': [2, 7, 6, 4], 'pins_hit': [2, 7], 'pin_set_count': 2}
+            {'name': 10, 'rolls': [2, 7, 6, 4], 'pins_hit': [2, 7], 'pin_set_count': 1}
         ]
 
     def test_frame_takes_one_arg_has_expected_defaults(self):
@@ -32,7 +32,7 @@ class TestFrame(TestCase):
                 'pin_sets': frame.pin_sets,
                 'score': frame.score,
                 'name': frame.name,
-                'max_rolls': frame.max_rolls
+                'remaining_rolls': frame.remaining_rolls
             },
             self.defaults
         )
@@ -48,7 +48,7 @@ class TestFrame(TestCase):
     def test_roll_method_adds_pins_if_incomplete(self):
         for name in range(1, 11):
             frame = Frame(name)
-            for pins_hit in [2, 8, 10, 10]:
+            for pins_hit in [10, 10, 10, 10]:
                 frame.roll(pins_hit)
             self.assertEqual(
                 len(frame.pin_sets),
@@ -60,15 +60,16 @@ class TestFrame(TestCase):
             frame = Frame(data['name'])
             for roll in data['rolls']:
                 frame.roll(roll)
-            self.assertEqual(
-                len(frame.pin_sets),
-                data['pin_set_count']
-            )
+
             pins_hit = []
             for pin_set in frame.pin_sets:
                 pins_hit.extend(pin_set.rolls)
-
             self.assertEqual(
                 pins_hit,
                 data['pins_hit']
+            )
+            self.assertEqual(
+                len(frame.pin_sets),
+                data['pin_set_count'],
+                '\nData used in this test: {}'.format(data)
             )
