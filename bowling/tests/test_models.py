@@ -26,7 +26,7 @@ class TestModels(TestCase):
 
     def test_game_roll_model_has_foreign_keys(self):
         game = Game.objects.create()
-        roll = Roll.objects.create()
+        roll = Roll.objects.create(pins_hit=2)
         game_roll = GameRoll.objects.create(
             game=game,
             roll=roll
