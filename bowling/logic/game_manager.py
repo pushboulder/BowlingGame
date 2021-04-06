@@ -41,6 +41,13 @@ class GameManager:
         self.update_frame(pins_hit)
         self.add_game_roll(pins_hit)
 
+    def calculate_score(self):
+        current_roll = 0
+        pins_hit_list = self.get_pins_hit_list()
+        for frame in self.frames.values():
+            current_roll += (2 - frame.remaining_rolls)
+            frame.calculate_score(pins_hit_list[current_roll:current_roll + 2])
+
     def update_frames(self):
         for game_roll in self.game_rolls:
             self.update_frame(game_roll.roll.pins_hit)
@@ -50,6 +57,10 @@ class GameManager:
         if self.frames[self.game.current_frame].is_complete():
             self.game.current_frame += 1
             self.game.save()
+
+    def get_pins_hit_list(self):
+        pins_hit = GameRoll.objects.filter(game=self.game).values_list('roll__pins_hit', flat=True)
+        return list(pins_hit)
 
     def add_game_roll(self, pins_hit):
         game_roll = GameRoll.objects.create(

@@ -76,8 +76,10 @@ class TestGameManager(TestCase):
         for roll in self.frame_score_data['rolls']:
             game_manager.roll(roll)
 
-        for frame in game_manager.frames:
+        game_manager.calculate_score()
+
+        for name, frame in game_manager.frames.items():
             self.assertEqual(
                 frame.score,
-                self.frame_score_data[frame.name]
+                self.frame_score_data['scores'][name - 1]
             )
