@@ -15,6 +15,10 @@ class TestGameManager(TestCase):
             {'frame': 3, 'roll': 0, 'expect': [0]},
             {'frame': 3, 'roll': 8, 'expect': [0, 8]},
         ]
+        cls.frame_score_data = {
+            'rolls': [10, 10, 5, 5, 5, 5, 10, 10, 5, 5, 5, 5, 10, 10, 10, 10],
+            'scores': [25, 20, 15, 20, 25, 20, 15, 20, 30, 30]
+        }
 
     def test_init_takes_game_id_creates_if_none_or_loads(self):
         game_manager = GameManager()
@@ -66,3 +70,14 @@ class TestGameManager(TestCase):
             game_manager_two.game_rolls,
             game_rolls
         )
+
+    def test_calculate_score_updates_all_frames(self):
+        game_manager = GameManager()
+        for roll in self.frame_score_data['rolls']:
+            game_manager.roll(roll)
+
+        for frame in game_manager.frames:
+            self.assertEqual(
+                frame.score,
+                self.frame_score_data[frame.name]
+            )
