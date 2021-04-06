@@ -7,7 +7,7 @@ class TestFrame(TestCase):
     def setUpTestData(cls):
         cls.defaults = {
             'max_pin_sets': 1,
-            'pin_sets': [],
+            'pin_sets': 1,
             'score': 0,
             'name': 1,
             'remaining_rolls': 2
@@ -42,7 +42,7 @@ class TestFrame(TestCase):
         self.assertEqual(
             {
                 'max_pin_sets': frame.max_pin_sets,
-                'pin_sets': frame.pin_sets,
+                'pin_sets': len(frame.pin_sets),
                 'score': frame.score,
                 'name': frame.name,
                 'remaining_rolls': frame.remaining_rolls
@@ -79,7 +79,8 @@ class TestFrame(TestCase):
                 pins_hit.extend(pin_set.rolls)
             self.assertEqual(
                 pins_hit,
-                data['pins_hit']
+                data['pins_hit'],
+                '\nData used in this test: {}'.format(data)
             )
             self.assertEqual(
                 len(frame.pin_sets),
@@ -94,5 +95,6 @@ class TestFrame(TestCase):
                 frame.roll(roll)
             self.assertEqual(
                 frame.is_complete(),
-                data['is_complete']
+                data['is_complete'],
+                '\nChecking is_complete with this data: {}'.format(data)
             )
