@@ -1,5 +1,6 @@
 from django.test import TestCase
 from bowling.logic.game_manager import GameManager
+from bowling.logic.frame import Frame
 
 
 class TestGameManager(TestCase):
@@ -17,3 +18,11 @@ class TestGameManager(TestCase):
             'second one should have loaded that game.'
         )
 
+    def test_has_frames_dict_with_ten_frames(self):
+        game_manager = GameManager()
+        for index in range(1, 11):
+            self.assertIsInstance(game_manager.frames[index], Frame)
+            self.assertEqual(
+                game_manager.frames[index].name,
+                index
+            )
