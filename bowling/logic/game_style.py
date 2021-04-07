@@ -5,6 +5,12 @@ class GameStyle:
 
     def __init__(self, game_id=None):
         self.game_manager = GameManager(game_id)
+        self.frames = None
+        self.frame_name = None
+        self.current_frame = None
+
+    def get_current_frame(self):
+        return self.game_manager.frames[self.game_manager.game.current_frame]
 
     @staticmethod
     def get_headers():
@@ -76,3 +82,24 @@ class GameStyle:
                 total_score += score
                 scores.append(total_score)
         return scores
+
+    def get_current_frame_data(self):
+        rolls = self.get_current_frame().remaining_rolls
+        rolls = 0 if not self.game_manager.game.active else rolls
+        current_frame_data = {
+            'rolls_remaining': rolls,
+            'current_frame': self.game_manager.game.current_frame,
+            'available_pins': self.get_available_pins()
+        }
+        return current_frame_data
+
+    def get_available_pins(self):
+        available_range = range(0, 11 - sum(self.get_current_frame().pin_sets[-1].rolls))
+        if not self.game_manager.game.active:
+            available_range = []
+        available_pins = {}
+        for index in range(0, 11):
+            available_pins[index] = index in available_range
+
+        return available_pins
+

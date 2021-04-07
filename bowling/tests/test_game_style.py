@@ -12,6 +12,15 @@ class TestGameStyle(TestCase):
         }
         cls.game_style = GameStyle()
         cls.pins_hit_list = [10, 7, 3, 9, 0, 10, 0, 8, 8, 2, 0, 6, 10, 10, 10, 8, 1]
+
+        available_pins_data = [11, 4, 11, 2, 11, 11, 11, 11, 3, 11, 11, 11, 11, 11, 11, 3, 0]
+        cls.expected_available_pins = []
+        for pins in available_pins_data:
+            available_pins = {}
+            for index in range(0, 11):
+                available_pins[index] = index < pins
+            cls.expected_available_pins.append(available_pins)
+
         for pins_hit in cls.pins_hit_list:
             cls.game_style.game_manager.roll(pins_hit)
         cls.expected_roll_results = [
@@ -29,10 +38,18 @@ class TestGameStyle(TestCase):
             'rolls_remaining': 0,
             'current_frame': 10,
             'available_pins': {
-                1: False, 2: False, 3: False, 4: False, 5: False,
+                0: False, 1: False, 2: False, 3: False, 4: False, 5: False,
                 6: False, 7: False, 8: False, 9: False, 10: False
             }
         }
+
+    @staticmethod
+    def get_new_game_style(rolls_to_apply=None):
+        game_style = GameStyle()
+        if rolls_to_apply:
+            for pins_hit in rolls_to_apply:
+                game_style.game_manager.roll(pins_hit)
+        return game_style
 
     def test_takes_game_id_creates_game_manager(self):
         game_style = GameStyle()
@@ -97,7 +114,25 @@ class TestGameStyle(TestCase):
         )
 
     def test_get_current_frame_data_returns_expected_data(self):
+        game_style = self.get_new_game_style(self.pins_hit_list)
+        actual = game_style.get_current_frame_data()
         self.assertEqual(
-            self.game_style.get_current_frame_data(),
-            self.expected_current_frame_data
+            actual,
+            self.expected_current_frame_data,
+            '\nExpected: {}\nActual:   {}'.format(
+                self.expected_current_frame_data,
+                actual
+            )
         )
+
+    def test_get_available_pins_returns_expected_data(self):
+        game_style = self.get_new_game_style()
+        for index in range(0, len(self.pins_hit_list)):
+            game_style.game_manager.roll(self.pins_hit_list[index])
+            self.assertEqual(
+                game_style.get_available_pins(),
+                self.expected_available_pins[index]
+            )
+
+
+
