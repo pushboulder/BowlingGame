@@ -1,0 +1,63 @@
+<style>
+div.title {
+    padding: 20px 0px;
+}
+div.info {
+    padding: 20px 0px;
+}
+span.pin_span form {
+    height: 50px;
+    width: 50px
+}
+span.pin0 form, span.pin10 form {
+    height: 50px;
+    width: 152px
+}
+input.pin_button {
+    height: 100%;
+    width: 100%;
+    font-size: 200%;
+}
+input.pb0, input.pb10 {
+    font-size: 250%;
+}
+div.table {
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    border-collapse: collapse;
+    text-align: center;
+    display: table;
+}
+div.row div {
+    display: table-cell;
+    border-style: solid;
+    border-width: 1px;
+    padding: 10px 0px;
+}
+div.pins div {
+    padding: 0;
+}
+div.rolls div:nth-child(-n+21) {
+    width: 20px;
+}
+div.headers div:nth-child(-n+9), div.scores div:nth-child(-n+9), div.pins div {
+    width: 41px;
+}
+div.headers div:nth-last-child(2), div.scores div:nth-last-child(2) {
+    width: 62px;
+}
+div.headers div:nth-last-child(1), div.scores div:nth-last-child(1) {
+    width: 83px;
+}
+div.rolls div:nth-child(odd) {
+    border-style: hidden solid hidden solid;
+}
+div.rolls div:nth-child(even), div.rolls div:nth-last-child(2), div.scores div {
+    border-style: hidden solid solid solid;
+}
+span {
+    min-height: 18px;
+    display: block;
+}
+</style>

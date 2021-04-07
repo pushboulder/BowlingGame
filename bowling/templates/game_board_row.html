@@ -1,0 +1,8 @@
+<div class="row {{call_it}}s">
+    {% for id, item in row_data.items %}
+        {% include 'game_board_row_cell.html' with call_it=call_it id=id item=item %}
+    {% endfor %}
+    {% for item in row %}
+        {% include 'game_board_row_cell.html' with call_it=call_it id=id item=item %}
+    {% endfor %}
+</div>

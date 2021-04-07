@@ -1,0 +1,12 @@
+{% for pin in row_data %}
+    <div>
+        <span class="pin_span pin{{pin.id}}">
+            <form name="update_game" method="post" action="{% url 'game_view' game_id %}">
+                {% csrf_token %}
+                <input class="pin_button pb{{pin.id}}" type="submit" value="{{pin.id}}" {{ pin.disabled }}/>
+                <input type="hidden" name="pins_hit" value="{{pin.id}}">
+                <input type="hidden" name="game_id" value="{{game_id}}">
+            </form>
+        </span>
+    </div>
+{% endfor %}

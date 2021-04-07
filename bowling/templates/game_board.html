@@ -1,0 +1,5 @@
+<div class="table">
+    {% include 'game_board_row.html' with row_data=headers call_it='header' %}
+    {% include 'game_board_row.html' with row=rolls call_it='roll' %}
+    {% include 'game_board_row.html' with row=scores call_it='score' %}
+</div>

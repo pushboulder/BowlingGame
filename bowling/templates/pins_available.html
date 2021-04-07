@@ -1,0 +1,15 @@
+{% load pins_dict %}
+<div class="title">
+    <span>
+        How many pins did you knock down?
+    </span>
+</div>
+<div class="table">
+    {% with pins=available_pins|pins_dict %}
+        {% for row_id, row in pins.items %}
+            <div class="row pins">
+                {% include 'pins_available_row.html' with row_data=row row_id=row_id %}
+            </div>
+        {% endfor %}
+    {% endwith %}
+</div>
