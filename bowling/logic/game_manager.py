@@ -9,7 +9,7 @@ class GameManager:
         self.game = self.get_game(game_id)
         self.frames = self.get_frames()
         game_rolls = self.get_game_rolls()
-        self.update_frames(game_rolls)
+        self.load_frames(game_rolls)
 
     def get_game(self, game_id):
         if game_id is None:
@@ -49,9 +49,12 @@ class GameManager:
             current_roll += (2 - frame.remaining_rolls)
             frame.calculate_score(pins_hit_list[current_roll:current_roll + 2])
 
-    def update_frames(self, game_rolls):
+    def load_frames(self, game_rolls):
+        current_frame = 1
         for game_roll in game_rolls:
-            self.update_frame(game_roll.roll.pins_hit)
+            self.frames[current_frame].roll(game_roll.roll.pins_hit)
+            if self.frames[current_frame].is_complete() and current_frame != 10:
+                current_frame += 1
 
     def update_frame(self, pins_hit):
         self.frames[self.game.current_frame].roll(pins_hit)
