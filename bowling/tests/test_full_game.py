@@ -8,12 +8,13 @@ class TestFullGameFlow(TestCase):
         cls.expected_scores = [
             20, 39, 48, 66,
             74, 84, 90, 120,
-            148, 167
+            148, 167, 167
         ]
         cls.expected_rolls = [
             '', 'X', '7', '/', '9', '-',
             '', 'X', '-', '8', '8', '/',
-            '-', '6', 'X', 'X', 'X', '8', '1'
+            '-', '6', '', 'X', '', 'X',
+            'X', '8', '1'
         ]
         cls.rolls_to_make = [
             10, 7, 3, 9,
@@ -32,14 +33,15 @@ class TestFullGameFlow(TestCase):
         )
         for index in range(0, len(self.rolls_to_make)):
             response = self.get_roll_response(index, game_id)
-            self.check_response(response, 'scores', self.expected_scores[0:index + 1])
-            self.check_response(response, 'rolls', self.expected_rolls[0:index + 1])
-        self.check_response(response, 'is_active', False)
+        self.check_response(response, 'scores', self.expected_scores)
+        self.check_response(response, 'rolls', self.expected_rolls)
+        self.check_response(response, 'active', False)
 
     def get_roll_response(self, index, game_id):
-        return self.client.get(
+        return self.client.post(
             '/{game_id}'.format(game_id=game_id),
             {
+                'game_id': game_id,
                 'pins_hit': self.rolls_to_make[index]
             }
         )

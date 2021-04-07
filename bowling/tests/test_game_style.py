@@ -32,7 +32,7 @@ class TestGameStyle(TestCase):
         cls.expected_scores = [
             20, 39, 48, 66,
             74, 84, 90, 120,
-            148, 167
+            148, 167, 167
         ]
         cls.expected_current_frame_data = {
             'rolls_remaining': 0,
@@ -101,6 +101,7 @@ class TestGameStyle(TestCase):
         )
         scores = game_style.get_scores()
         expected = self.expected_scores[0:5]
+        expected.extend([''] * 6)
         self.assertEqual(
             scores,
             expected,

@@ -11,6 +11,8 @@ class GameStyle:
 
     def get_context(self):
         context = {
+            'game_id': self.game_manager.game.id,
+            'active': self.game_manager.game.active,
             'headers': self.get_headers(),
             'rolls': self.get_roll_results(),
             'scores': self.get_scores()
@@ -92,6 +94,10 @@ class GameStyle:
             if score:
                 total_score += score
                 scores.append(total_score)
+            else:
+                scores.append('')
+        total_score = '' if '' in scores else total_score
+        scores.append(total_score)
         return scores
 
     def get_current_frame_data(self):
