@@ -9,6 +9,9 @@ class GameStyle:
         self.frame_name = None
         self.current_frame = None
 
+    def roll(self, pins_hit):
+        self.game_manager.roll(pins_hit)
+
     def get_context(self):
         context = {
             'game_id': self.game_manager.game.id,

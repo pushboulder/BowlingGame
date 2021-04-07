@@ -51,7 +51,7 @@ class TestGameStyle(TestCase):
         game_style = GameStyle()
         if rolls_to_apply:
             for pins_hit in rolls_to_apply:
-                game_style.game_manager.roll(pins_hit)
+                game_style.roll(pins_hit)
         return game_style
 
     def test_takes_game_id_creates_game_manager(self):
@@ -86,7 +86,7 @@ class TestGameStyle(TestCase):
         game_style = GameStyle()
         pins_hit_list = self.pins_hit_list[0:9]
         for pins_hit in pins_hit_list:
-            game_style.game_manager.roll(pins_hit)
+            game_style.roll(pins_hit)
 
         roll_results = game_style.get_roll_results()
         expected = self.expected_roll_results[0:11]
@@ -132,7 +132,7 @@ class TestGameStyle(TestCase):
     def test_get_available_pins_returns_expected_data(self):
         game_style = self.get_new_game_style()
         for index in range(0, len(self.pins_hit_list)):
-            game_style.game_manager.roll(self.pins_hit_list[index])
+            game_style.roll(self.pins_hit_list[index])
             self.assertEqual(
                 game_style.get_available_pins(),
                 self.expected_available_pins[index]
