@@ -42,6 +42,9 @@ class TestGameStyle(TestCase):
                 6: False, 7: False, 8: False, 9: False, 10: False
             }
         }
+        cls.get_context_sections = [
+            'headers', 'rolls', 'scores', 'rolls_remaining', 'current_frame', 'available_pins',
+        ]
 
     @staticmethod
     def get_new_game_style(rolls_to_apply=None):
@@ -134,5 +137,10 @@ class TestGameStyle(TestCase):
                 self.expected_available_pins[index]
             )
 
-
-
+    def test_get_context_returns_expected_data_sections(self):
+        game_style = self.get_new_game_style()
+        actual = game_style.get_context()
+        for section in self.get_context_sections:
+            self.assertIsNotNone(
+                actual.get(section, None)
+            )
