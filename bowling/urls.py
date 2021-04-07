@@ -20,5 +20,6 @@ app_name = 'bowling_game'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.game_view, name='game_view')
+    path('', views.game_view, name='game_view'),
+    path('<int:game_id>', views.game_view, name='game_view')
 ]
