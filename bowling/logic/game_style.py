@@ -9,6 +9,17 @@ class GameStyle:
         self.frame_name = None
         self.current_frame = None
 
+    def get_context(self):
+        context = {
+            'headers': self.get_headers(),
+            'rolls': self.get_roll_results(),
+            'scores': self.get_scores()
+        }
+        context.update(
+            self.get_current_frame_data()
+        )
+        return context
+
     def get_current_frame(self):
         return self.game_manager.frames[self.game_manager.game.current_frame]
 
